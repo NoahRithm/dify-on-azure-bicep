@@ -1,0 +1,21 @@
+#cloud-config
+package_update: true
+packages:
+  - git
+  - docker.io
+
+# Docker公式リポジトリと Compose v2 プラグインを追加
+runcmd:
+  - [ bash, -c, "usermod -aG docker azureuser" ]
+
+  # --- Docker公式リポジトリ追加 ---
+  - [ bash, -c, "mkdir -p /etc/apt/keyrings" ]
+  - [ bash, -c, "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor | tee /etc/apt/keyrings/docker.gpg > /dev/null" ]
+  - [ bash, -c, "echo \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\" | tee /etc/apt/sources.list.d/docker.list" ]
+  - [ bash, -c, "apt-get update" ]
+  - [ bash, -c, "apt-get install -y docker-compose-plugin" ]
+
+  # --- Dify セットアップ ---
+  - [ bash, -c, "git clone https://github.com/langgenius/dify.git /opt/dify" ]
+  - [ bash, -c, "cp /opt/dify/docker/.env.example /opt/dify/docker/.env" ]
+  - [ bash, -c, "docker compose -f /opt/dify/docker/docker-compose.yaml up -d" ]
