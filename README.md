@@ -90,7 +90,6 @@ az deployment sub create \
 │   ├── network.bicep          # VNet & NSG（22 と 80 を管理端末 IP のみに許可）
 │   └── vm.bicep               # Linux VM + cloud-init + Custom Script Extension
 ├── scripts/
-│   ├── cloud-init.yaml        # VM ブート時：Docker & Dify を自動インストール＆起動
-│   └── wait-dify.sh           # CSE が実行するコンテナ起動待ちシェル
+│   └── cloud-init.yaml        # VM ブート時：Docker & Dify を自動インストール＆起動
 └── README.md                  # このドキュメント
 ```
